@@ -19,11 +19,28 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  
+  <!-- jQuery multi select css -->
+  <link href="css/fSelect.css" rel="stylesheet">
 
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
+
+  
 </head>
 
 <body id="page-top">
-
+  
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
     <a class="navbar-brand mr-1" href="#">Pandora Survey</a>
@@ -31,21 +48,6 @@
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
-
-    <!-- Navbar -->
-    <!-- <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">Settings</a>
-          <a class="dropdown-item" href="#">Activity Log</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-        </div>
-      </li>
-    </ul> -->
 
   </nav>
 
@@ -100,11 +102,10 @@
       <div class="container-fluid">
 
         <!-- Breadcrumbs-->
-        <!-- <ol class="breadcrumb">
-          <div class="col-md-3">
-            <select class="form-control" id="filter">
-              <option selected="selected" disabled>-- SELECT BRANCH --</option>
-                  <option value="-- SELECT ALL --">SELECT ALL BRANCHES</option>
+        <ol class="breadcrumb text-center">
+          <div class="col-md-2">
+            <select class="form-control branch" id="multi_search_filter" multiple="multiple">
+              <optgroup label="SELECT BRANCH">
                   <?php
                       $branches = array(
                           "WAREHOUSE",
@@ -137,9 +138,52 @@
                   ?>
                       <option value="<?php echo $branch; ?>"><?php echo $branch; ?></option>
                   <?php }  ?>
-              </select>
-            </div>
-        </ol> -->
+              </optgroup>
+            </select>
+            <input type="hidden" name="hidden_branch" id="hidden_branch" />
+          </div>
+
+          <!-- <div class="col-md-2">
+            <select class="form-control" multiple="multiple">
+              <option>Newspaper</option>
+              <option>Magazine</option>
+              <option>Social Media</option>
+              <option>Billboard</option>
+              <option>Friend/Family</option>
+              <option>Store Visit</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" multiple="multiple">
+              <option>Newspaper</option>
+              <option>Magazine</option>
+              <option>Social Media</option>
+              <option>Billboard</option>
+              <option>Friend/Family</option>
+              <option>Store Visit</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" multiple="multiple">
+              <option>Newspaper</option>
+              <option>Magazine</option>
+              <option>Social Media</option>
+              <option>Billboard</option>
+              <option>Friend/Family</option>
+              <option>Store Visit</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" multiple="multiple">
+              <option>Newspaper</option>
+              <option>Magazine</option>
+              <option>Social Media</option>
+              <option>Billboard</option>
+              <option>Friend/Family</option>
+              <option>Store Visit</option>
+            </select>
+          </div> -->
+        </ol>
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header bg-dark text-white font-weight-bold">
@@ -147,7 +191,7 @@
             Customers</div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered customer_table" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                       <th>Branch Registered</th>
@@ -159,37 +203,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
-                      require_once 'api/database/config.php';
-
-                      $sql = $conn->query("SELECT * FROM customers");
-
-                      if ($sql->num_rows > 0) {
-                          while ($row = $sql->fetch_assoc()) { 
-                          $id = $row['id'];
-                            echo "
-                                <tr>
-                                    <td>".$row['branch'].' - ',$row['branch_code']."</td>
-                                    <td>".$row['title'].' '.$row['firstname'].' '. $row['lastname']."</td>
-                                    <td>".$row['email']."</td>
-                                    <td>".$row['mobile']."</td>
-                                    <td>".$row['birthday']."</td>
-                                    <td class='text-center'>
-                                      <form method='POST'>
-                                        <a href='fetch_survey.php?id=$id' class='btn btn-dark btn-sm'>
-                                          View Details
-                                        </a>
-                                      </form>
-                                    </td>
-                                </tr>  
-                                ";
-                          }
-                      }
-
-                      // else {
-                      //     echo "<td class='text-center' colspan='7'>No data available in table</td>";
-                      // }
-                  ?>
                 </tbody>
               </table>
             </div>
@@ -254,8 +267,46 @@
   <!-- Demo scripts for this page-->
   <script src="js/demo/datatables-demo.js"></script>
   
-  <!-- Custom select js -->
-  <!-- <script src="js/select-customer.js"></script> -->
+  <!-- jQuery -->
+  <script src="js/jquery.min.js"></script>
+  
+  <!-- jQuery multi select js -->
+  <script src="js/fSelect.js"></script>
+  
+  <script>
+    (function($) {
+        $(function() {
+            window.fs_test = $('.branch').fSelect();
+        });
+    })(jQuery);
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      
+      load_data();
+
+      function load_data(query='')
+      {
+        $.ajax({
+          url:"fetch.php",
+          method:"POST",
+          data:{query:query},
+          success:function(data)
+          {
+            $('tbody').html(data);
+          }
+        });
+      }
+
+      $('#multi_search_filter').change(function(){
+        $('#hidden_branch').val($('#multi_search_filter').val());
+        var query = $('#hidden_branch').val();
+        load_data(query);
+      });
+      
+    });
+  </script>
 
 </body>
 
