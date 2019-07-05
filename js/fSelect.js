@@ -29,7 +29,7 @@
         }
         else {
             var settings = $.extend({
-                placeholder: 'BRANCH NAME',
+                placeholder: '--- SELECT ---',
                 numDisplayed: 3,
                 overflowText: '{n} selected',
                 searchText: 'Search',

@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Pandora Survey</title>
+  <title>Pandora CMS</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -35,15 +35,13 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
-
-  
 </head>
 
 <body id="page-top">
   
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="#">Pandora Survey</a>
+    <a class="navbar-brand mr-1" href="#">Pandora CMS</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -103,9 +101,9 @@
 
         <!-- Breadcrumbs-->
         <ol class="breadcrumb text-center">
-          <div class="col-md-2">
+          <div class="col-md-3">
             <select class="form-control branch" id="multi_search_filter" multiple="multiple">
-              <optgroup label="SELECT BRANCH">
+              <optgroup label="BRANCHES">
                   <?php
                       $branches = array(
                           "WAREHOUSE",
@@ -142,47 +140,71 @@
             </select>
             <input type="hidden" name="hidden_branch" id="hidden_branch" />
           </div>
+         
+          <!-- <div class="col-md-3">
+            <select class="form-control branch" name="second_level[]" id="multiple" multiple="multiple">
+             
+              <optgroup label="COLLECTIONS">
+                <?php
+                  $collections = array(
+                                "Newspaper",
+                                "Magazine",
+                                "Social Media",
+                                "Billboard",
+                                "Friend/Family",
+                                "Store Visit"
+                              );
+                    foreach ($collections as $collect) {
+                ?>
+                <option value="<?php echo $collect?>"><?php echo $collect; ?></option>
+                <?php } ?>
+              </optgroup>
+            </select>
+          </div>
 
-          <!-- <div class="col-md-2">
-            <select class="form-control" multiple="multiple">
-              <option>Newspaper</option>
-              <option>Magazine</option>
-              <option>Social Media</option>
-              <option>Billboard</option>
-              <option>Friend/Family</option>
-              <option>Store Visit</option>
-            </select>
+          <div class="col-md-3">
+            <select class="form-control branch"  name="third_level[]" id="multiple" multiple="multiple">
+              <optgroup label="Products">
+                <?php
+                  $products = array(
+                    "Bracelet",
+                    "Charm",
+                    "Necklace",
+                    "Ring",
+                    "Earrings"
+                    );
+
+                    foreach ($products as $prod) {
+                
+                ?>
+                <option value="<?php echo $prod;?>"><?php echo $prod;?></option>
+                <?php } ?>
+              </optgroup>
+            </select>  
           </div>
-          <div class="col-md-2">
-            <select class="form-control" multiple="multiple">
-              <option>Newspaper</option>
-              <option>Magazine</option>
-              <option>Social Media</option>
-              <option>Billboard</option>
-              <option>Friend/Family</option>
-              <option>Store Visit</option>
-            </select>
-          </div>
-          <div class="col-md-2">
-            <select class="form-control" multiple="multiple">
-              <option>Newspaper</option>
-              <option>Magazine</option>
-              <option>Social Media</option>
-              <option>Billboard</option>
-              <option>Friend/Family</option>
-              <option>Store Visit</option>
-            </select>
-          </div>
-          <div class="col-md-2">
-            <select class="form-control" multiple="multiple">
-              <option>Newspaper</option>
-              <option>Magazine</option>
-              <option>Social Media</option>
-              <option>Billboard</option>
-              <option>Friend/Family</option>
-              <option>Store Visit</option>
+
+          <div class="col-md-3">
+            <select class="form-control branch" id="multiple" multiple="multiple">
+              <optgroup label="Social Media">
+                <?php 
+                  $social_media = array(
+                      "Facebook",
+                      "Insragram",
+                      "Twitter",
+                      "Snapchat",
+                      "Others"
+                      
+                    );
+                    
+                    foreach ($social_media as $socials) {
+                
+                ?>
+                <option value="<?php echo $socials;?>"><?php echo $socials;?></option>
+                <?php } ?>
+              </optgroup>
             </select>
           </div> -->
+          
         </ol>
         <!-- DataTables Example -->
         <div class="card mb-3">
@@ -267,7 +289,7 @@
   <!-- Demo scripts for this page-->
   <script src="js/demo/datatables-demo.js"></script>
   
-  <!-- jQuery -->
+  <!-- JQuery -->
   <script src="js/jquery.min.js"></script>
   
   <!-- jQuery multi select js -->
@@ -304,9 +326,8 @@
         var query = $('#hidden_branch').val();
         load_data(query);
       });
-      
     });
-  </script>
+  </script>  
 
 </body>
 
