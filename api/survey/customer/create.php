@@ -11,7 +11,7 @@ include_once '../../database/db_connect.php';
 			$this->connection = $this->db->getConnection();
 		}
 		
-		public function does_user_exist($branch, $branch_code, $title, $firstname, $lastname, $email, $mobile, $birthday, $timestamps)
+		public function does_user_exist($branch, $branch_code, $title, $firstname, $lastname, $email, $mobile, $birthday, $buying_for_others, $timestamps)
 		{
 			$query = "SELECT *  FROM customers WHERE mobile='$mobile'";
 			$result = mysqli_query($this->connection, $query);
@@ -22,8 +22,8 @@ include_once '../../database/db_connect.php';
 				mysqli_close($this->connection);
 			}
 			else {
-				$query = "INSERT INTO customers (branch, branch_code, title, firstname, lastname, email, mobile, birthday, created_at, updated_at) 
-				VALUES ('$branch', '$branch_code', '$title', '$firstname','$lastname','$email','$mobile','$birthday', '$timestamps','$timestamps')";
+				$query = "INSERT INTO customers (branch, branch_code, title, firstname, lastname, email, mobile, birthday, buying_for_others, created_at, updated_at) 
+				VALUES ('$branch', '$branch_code', '$title', '$firstname','$lastname','$email','$mobile','$birthday', '$buying_for_others', '$timestamps','$timestamps')";
 				$inserted = mysqli_query($this->connection, $query);
 				if ($inserted == 1 ){
 					$json['message'] = 'success';
@@ -39,7 +39,17 @@ include_once '../../database/db_connect.php';
 	}
     
 	$user = new User();
-	if (isset($_POST['branch'],$_POST['branch_code'],$_POST['title'], $_POST['firstname'],$_POST['lastname'],$_POST['email'],$_POST['mobile'])) {
+	if (isset(
+		$_POST['branch'],
+		$_POST['branch_code'],
+		$_POST['title'],
+		$_POST['firstname'],
+		$_POST['lastname'],
+		$_POST['email'],
+		$_POST['mobile'],
+		$_POST['birthday'],
+		$_POST['buying_for_others']
+	)) {
 		$branch = $_POST['branch'];
 		$branch_code = $_POST['branch_code'];
 		$title = $_POST['title'];
@@ -47,14 +57,15 @@ include_once '../../database/db_connect.php';
         $lastname = $_POST['lastname'];
         $email = $_POST['email'];
         $mobile = $_POST['mobile'];
-        $birthday = $_POST['birthday'];
+		$birthday = $_POST['birthday'];
+		$buying_for_others = $_POST['buying_for_others'];
         $currentTimeinSeconds = time();
         $timestamps = date('Y-m-d', $currentTimeinSeconds).' '.date("H:i:s", $currentTimeinSeconds); 
 
 		
-		if(!empty($branch) || !empty($branch_code) || !empty($title) || !empty($firstname) || !empty($lastname) || !empty($email) || !empty($mobile) || !empty($birthday)){
+		if(!empty($branch) || !empty($branch_code) || !empty($title) || !empty($firstname) || !empty($lastname) || !empty($email) || !empty($mobile) || !empty($birthday || !empty($buying_for_others))){
 			
-			$user->does_user_exist($branch, $branch_code, $title, $firstname, $lastname, $email, $mobile, $birthday, $timestamps);
+			$user->does_user_exist($branch, $branch_code, $title, $firstname, $lastname, $email, $mobile, $birthday, $buying_for_others, $timestamps);
 			
 		} 
 		

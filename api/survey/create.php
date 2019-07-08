@@ -12,21 +12,18 @@
 			$this->connection = $this->db->getConnection();
         }
 		
-        public function does_survey_exist($cust_id, $facebook, $instagram, $twitter, $snapchat, $others,
-        $bracelet, $charm, $necklace, $ring, $earrings, $gifts, $newspaper, $magazine, $social_media, $billboard,
-        $friend_family, $store_visit, $timestamps)
+        public function does_survey_exist($cust_id, $social_media_id, $others, $product_id, $buying_for_others, $ads_id)
 		{
-            $query = "INSERT INTO survey_socials (cust_id, facebook, instagram, twitter, snapchat, others, created_at, updated_at) 
-            VALUES ('$cust_id', '$facebook', '$instagram','$twitter','$snapchat','$others', '$timestamps','$timestamps');";
+            $query = "INSERT INTO customer_social_media (cust_id, social_media_id, others) 
+            VALUES ('$cust_id', '$social_media_id', '$others');";
 
-            $query .= "INSERT INTO survey_products (cust_id, bracelet, charm, necklace, ring, earrings, created_at, updated_at) 
-            VALUES ('$cust_id', '$bracelet', '$charm', '$necklace', '$ring', '$earrings', '$timestamps', '$timestamps');";
+            $query .= "INSERT INTO customer_products (cust_id, product_id) 
+            VALUES ('$cust_id', '$product_id');";
 
-            $query .= "INSERT INTO survey_gifts (cust_id, gifts, created_at, updated_at)
-            VALUES ('$cust_id', '$gifts', '$timestamps', '$timestamps');";
+            $query .= "UPDATE customers SET buying_for_others = '$buying_for_others' WHERE id = '$cust_id'";
             
-            $query .= "INSERT INTO survey_collections (cust_id, newspaper, magazine, social_media, billboard, friend_family, store_visit, created_at, updated_at)
-            VALUES ('$cust_id', '$newspaper', '$magazine', '$social_media', '$billboard', '$friend_family', '$store_visit', '$timestamps', '$timestamps')";
+            $query .= "INSERT INTO ads (cust_id, ads_id)
+            VALUES ('$cust_id', '$ads_id');";
             
             $inserted = mysqli_multi_query($this->connection, $query);
             $json = array();
@@ -43,42 +40,18 @@
 	}
     
 	$user = new User();
-    if (isset($_POST['cust_id'],$_POST['facebook'], $_POST['instagram'],$_POST['twitter'],$_POST['snapchat'],$_POST['others'],
-    $_POST['bracelet'],$_POST['charm'],$_POST['necklace'],$_POST['ring'],$_POST['earrings'],$_POST['gifts']
-    ,$_POST['newspaper'],$_POST['magazine'],$_POST['social_media'],$_POST['billboard'],$_POST['friend_family']
-    ,$_POST['store_visit'])) {
+    if (isset($_POST['cust_id'], $_POST['social_media_id'], $_POST['others'], $_POST['product_id'], $_POST['buying_for_others'], $_POST['ads_id'])) {
         $cust_id = $_POST['cust_id'];
-        $facebook = $_POST['facebook'];
-        $instagram = $_POST['instagram'];
-        $twitter = $_POST['twitter'];
-        $snapchat = $_POST['snapchat'];
+        $social_media_id = $_POST['social_media_id'];
         $others = $_POST['others'];
-        $bracelet = $_POST['bracelet'];
-        $charm = $_POST['charm'];
-        $necklace = $_POST['necklace'];
-        $ring = $_POST['ring'];
-        $earrings = $_POST['earrings'];
-        $gifts = $_POST['gifts'];
-        $newspaper = $_POST['newspaper'];
-        $magazine = $_POST['magazine'];
-        $social_media = $_POST['social_media'];
-        $billboard = $_POST['billboard'];
-        $friend_family = $_POST['friend_family'];
-        $store_visit = $_POST['store_visit'];
-        $currentTimeinSeconds = time();
-        $timestamps = date('Y-m-d', $currentTimeinSeconds).' '.date("H:i:s", $currentTimeinSeconds); 
+        $product_id = $_POST['product_id'];
+        $buying_for_others = $_POST['buying_for_others'];
+        $ads_id = $_POST['ads_id'];
 
 		
-        if(!empty($cust_id) || !empty($facebook) || !empty($instagram) || !empty($twitter) 
-        || !empty($snapchat) || !empty($others) || !empty($bracelet) || !empty($charm) 
-        || !empty($necklace) || !empty($ring) || !empty($earrings) || !empty($gifts)
-        || !empty($newspaper) || !empty($magazine) || !empty($social_media) || !empty($billboard)
-        || !empty($friend_family) || !empty($store_visit) || !empty($timestamps)){
+        if(!empty($cust_id) || !empty($social_media_id) || !empty($others) || !empty($product_id) || !empty($buying_for_others) || !empty($ads_id)){
 			
-			$user->does_survey_exist($cust_id, $facebook, $instagram, $twitter, $snapchat, $others,
-            $bracelet, $charm, $necklace, $ring, $earrings, $gifts, $newspaper, $magazine, $social_media, $billboard,
-            $friend_family, $store_visit, $timestamps);
-			
+			$user->does_survey_exist($cust_id, $social_media_id, $others, $product_id, $buying_for_others, $ads_id);
 		} 
 		
 		else {
