@@ -30,10 +30,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
   <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
 </head>
 
@@ -102,105 +102,100 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb text-center">
           <div class="col-md-3">
-            <select class="form-control branch" id="multi_search_filter" multiple="multiple">
+            <!-- <select class="form-control branch" id="multi_search_filter" multiple="multiple"> -->
+            <select id="first_level" name="first_level[]" multiple class="form-control branch">
               <optgroup label="BRANCHES">
                   <?php
-                      $branches = array(
-                          "WAREHOUSE",
-                          "SM CLARK",
-                          "AYALA CEBU",
-                          "ROBINSONS ERMITA",
-                          "UPTOWN MALL",
-                          "FESTIVAL MALL",
-                          "SMAISON CONRAD",
-                          "ESTANCIA",
-                          "U.P. TOWN CENTER",
-                          "CENTURY MALL",
-                          "GREENBELT",
-                          "SM AURA","PODIUM", 
-                          "BONI HIGH STREET",
-                          "SHANGRI-LA",
-                          "MEGAMALL",
-                          "GLORIETTA 4",
-                          "TRINOMA",
-                          "ROBINSON GALLERIA",
-                          "VERTIS NORTH",
-                          "NEWPORT",
-                          "ALABANG TOWN CENTER",
-                          "SM MAKATI",
-                          "EASTWOOD",
-                          "SOLAIRE"
-                  );
+                      //index.php
 
-                    foreach ($branches as $branch) {
+                      include('api/database/PDO_config.php');
+
+                      $query = "
+                      SELECT * FROM company_branches 
+                      ORDER BY branch ASC
+                      ";
+
+                      $statement = $connect->prepare($query);
+
+                      $statement->execute();
+
+                      $result = $statement->fetchAll();
+
+                      foreach($result as $row) {
+                        echo '<option value="'.$row["branch"].'">'.$row["branch"].'</option>';
+                      }
                   ?>
-                      <option value="<?php echo $branch; ?>"><?php echo $branch; ?></option>
-                  <?php }  ?>
               </optgroup>
+              <input type="hidden" name="hidden_branch" id="hidden_branch">
             </select>
-            <input type="hidden" name="hidden_branch" id="hidden_branch" />
-          </div>
+        </div>
          
           <!-- <div class="col-md-3">
-            <select class="form-control branch" name="second_level[]" id="multiple" multiple="multiple">
-             
-              <optgroup label="COLLECTIONS">
-                <?php
-                  $collections = array(
-                                "Newspaper",
-                                "Magazine",
-                                "Social Media",
-                                "Billboard",
-                                "Friend/Family",
-                                "Store Visit"
-                              );
-                    foreach ($collections as $collect) {
-                ?>
-                <option value="<?php echo $collect?>"><?php echo $collect; ?></option>
-                <?php } ?>
+            <select id="second_level" name="second_level[]" multiple class="form-control branch">
+              <optgroup label="ADS">
+                  <?php
+                      $query = "
+                      SELECT * FROM ads 
+                      ORDER BY id ASC
+                      ";
+
+                      $statement = $connect->prepare($query);
+
+                      $statement->execute();
+
+                      $result = $statement->fetchAll();
+
+                      foreach($result as $row) {
+                        echo '<option value="'.$row["id"].'">'.$row["category"].'</option>';
+                      }
+                  ?>
               </optgroup>
+              <input type="hidden" name="hidden_ads" id="hidden_ads">
             </select>
           </div>
 
           <div class="col-md-3">
-            <select class="form-control branch"  name="third_level[]" id="multiple" multiple="multiple">
+            <select id="third_level" name="third_level[]" multiple class="form-control branch">
               <optgroup label="Products">
                 <?php
-                  $products = array(
-                    "Bracelet",
-                    "Charm",
-                    "Necklace",
-                    "Ring",
-                    "Earrings"
-                    );
+                      $query = "
+                      SELECT * FROM products 
+                      ORDER BY id ASC
+                      ";
 
-                    foreach ($products as $prod) {
-                
+                      $statement = $connect->prepare($query);
+
+                      $statement->execute();
+
+                      $result = $statement->fetchAll();
+
+                      foreach($result as $row) {
+                        echo '<option value="'.$row["id"].'">'.$row["category"].'</option>';
+                      }
                 ?>
-                <option value="<?php echo $prod;?>"><?php echo $prod;?></option>
-                <?php } ?>
               </optgroup>
             </select>  
           </div>
 
           <div class="col-md-3">
-            <select class="form-control branch" id="multiple" multiple="multiple">
+            <select id="fourth_level" name="fourth_level[]" multiple class="form-control branch">
               <optgroup label="Social Media">
-                <?php 
-                  $social_media = array(
-                      "Facebook",
-                      "Insragram",
-                      "Twitter",
-                      "Snapchat",
-                      "Others"
-                      
-                    );
-                    
-                    foreach ($social_media as $socials) {
-                
+                <?php
+                      $query = "
+                      SELECT * FROM social_media 
+                      ORDER BY id ASC
+                      ";
+
+                      $statement = $connect->prepare($query);
+
+                      $statement->execute();
+
+                      $result = $statement->fetchAll();
+
+                      foreach($result as $row) {
+                        echo '<option value="'.$row["id"].'">'.$row["category"].'</option>';
+                      }
                 ?>
-                <option value="<?php echo $socials;?>"><?php echo $socials;?></option>
-                <?php } ?>
               </optgroup>
             </select>
           </div> -->
@@ -213,20 +208,9 @@
             Customers</div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                      <th>Branch Registered</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
-                      <th>Birthday</th>
-                      <th class="text-center"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            </table>
+              
             </div>
           </div>
         </div>
@@ -316,13 +300,13 @@
           data:{query:query},
           success:function(data)
           {
-            $('tbody').html(data);
+            $('table').html(data);
           }
         });
       }
 
-      $('#multi_search_filter').change(function(){
-        $('#hidden_branch').val($('#multi_search_filter').val());
+      $('#first_level').change(function(){
+        $('#hidden_branch').val($('#first_level').val());
         var query = $('#hidden_branch').val();
         load_data(query);
       });

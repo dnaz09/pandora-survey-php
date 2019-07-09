@@ -1,8 +1,6 @@
 <?php
 
-    //fetch.php
-
-    $connect = new PDO("mysql:host=localhost;dbname=db_pandora", "root", "");
+    require_once 'api/database/PDO_config.php';
 
     if($_POST["query"] != '') {
         $search_array = explode(",", $_POST["query"]);
@@ -13,6 +11,8 @@
         ORDER BY id DESC
         ";
     }
+
+    
 
     else {
         $query = "SELECT * FROM customers ORDER BY id DESC";
@@ -29,11 +29,29 @@
     $output = '';
 
     if($total_row > 0) {
+        $output .= '
+       
+                
+        <thead>
+        <tr>
+            <th>Branch Registered</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Birthday</th>
+            <th class="text-center"></th>
+        </tr>
+      </thead>
+        
+        
+        ';
         foreach($result as $row)
     {
     
             $output .= '
-            <tr>
+            
+                <tbody>
+                <tr>
                 <td>'.$row["branch"].' - '.$row["branch_code"].'</td>
                 <td>'.$row["title"].' '.$row['firstname'].' '.$row["lastname"].'</td>
                 <td>'.$row["email"].'</td>
@@ -47,6 +65,8 @@
                     </form>
                 </td>
             </tr>
+                </tbody>
+           
             ';
         }
     }
