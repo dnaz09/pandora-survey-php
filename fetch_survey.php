@@ -31,22 +31,6 @@
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
-
-    <!-- Navbar -->
-    <!-- <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">Settings</a>
-          <a class="dropdown-item" href="#">Activity Log</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-        </div>
-      </li>
-    </ul> -->
-
   </nav>
 
   <div id="wrapper">
@@ -114,10 +98,9 @@
 
                     $id = $_GET['id'];
 
-                    $sql = "SELECT * FROM survey_collections WHERE cust_id = '$id';";
-                    $sql .= "SELECT * FROM survey_gifts WHERE cust_id = '$id';";
-                    $sql .= "SELECT * FROM survey_products WHERE cust_id = '$id';";
-                    $sql .= "SELECT * FROM survey_socials WHERE cust_id = '$id'";
+                    $sql = "SELECT * FROM ads AS a INNER JOIN customer_ads as ca ON a.id = ca.ads_id WHERE cust_id = '$id';";
+                    $sql .= "SELECT * FROM products AS p INNER JOIN customer_products AS cp ON p.id = cp.product_id WHERE cust_id = '$id';";
+                    $sql .= "SELECT * FROM social_media AS sm INNER JOIN customer_social_media AS csm ON sm.id = csm.social_media_id WHERE cust_id = '$id';";
 
                     
                     // Execute multi query
@@ -125,254 +108,65 @@
                     {
                         if ($result = $conn->store_result()) {
                             // Fetch one and one row
-                            while ($row = $result->fetch_row())
-                            {
-                        ?>
+                            echo "
+                            <div class='col-md-6 mb-3'>
+                                <div class='card'>
+                                    <div class='card-header bg-success text-white'>Ads</div>
+                                    <div class='card-body'>
+                                        <ul class='list-group'>
+                                            <li class='list-group-item'>";
+                                                while ($row = $result->fetch_row()) {
+                                                    echo $row[1].'<br>'; 
+                                                }
+                                                $result->free();
+                                        echo "
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>";
+                        }
+
+                        if ($conn->next_result()) {
+                            $result = $conn->store_result();
+                            echo "
                                 <div class='col-md-6 mb-3'>
                                     <div class='card'>
-                                        <div class='card-header bg-success text-white'>Collections</div>
+                                        <div class='card-header bg-warning text-white'>Products</div>
                                         <div class='card-body'>
                                             <ul class='list-group'>
-                                                <li class='list-group-item'>
-                                                    <b>Newspaper</b>
-                                                    <?php 
-                                                    if ($row[1] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Magazine</b>
-                                                    <?php 
-                                                    if ($row[2] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Social Media</b>
-                                                    <?php 
-                                                    if ($row[3] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Billboard</b>
-                                                    <?php 
-                                                    if ($row[4] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Friend/Family</b>
-                                                    <?php 
-                                                    if ($row[5] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Store Visit</b>
-                                                    <?php 
-                                                    if ($row[6] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                                <li class='list-group-item'>";
+                                                while ($row = $result->fetch_row()) {
+                                                    echo $row[1].'<br>'; 
+                                                }
+                                        echo "
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                        <?php
-                            }
-                            $result->free();
+                            </div>";
                         }
 
                         if ($conn->next_result()) {
                             $result = $conn->store_result();
-                            while ($row = $result->fetch_row()) {
-                        ?>
+                            echo "
                                 <div class='col-md-6'>
                                     <div class='card'>
-                                        <div class='card-header bg-warning text-white'>Gifts</div>
+                                        <div class='card-header bg-danger text-white'>Social Media</div>
                                         <div class='card-body'>
                                             <ul class='list-group'>
-                                                <li class='list-group-item'>
-                                                    <b>Gifts</b>
-                                                    <?php 
-                                                    if ($row[1] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
+                                                <li class='list-group-item'>";
+                                                    while ($row = $result->fetch_row()) {
+                                                        echo $row[1].'<br>';
                                                     }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
+                                            echo "
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
-                        <?php
-                            }
-                        }
-
-                        if ($conn->next_result()) {
-                            $result = $conn->store_result();
-                            while ($row = $result->fetch_row()) {
-                            
-                        ?>
-                                <div class='col-md-6'>
-                                    <div class='card'>
-                                        <div class='card-header bg-danger text-white'>Products</div>
-                                        <div class='card-body'>
-                                            <ul class='list-group'>
-                                                <li class='list-group-item'>
-                                                    <b>Bracelet</b>
-                                                    <?php 
-                                                    if ($row[1] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Charm</b>
-                                                    <?php 
-                                                    if ($row[2] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Necklace</b>
-                                                    <?php 
-                                                    if ($row[3] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Ring</b>
-                                                    <?php 
-                                                    if ($row[4] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Earrings</b>
-                                                    <?php 
-                                                    if ($row[5] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                        <?php
-                            }
+                                </div>";
                         }
                         
-                        if ($conn->next_result()) {
-                            $result = $conn->store_result();
-                            while ($row = $result->fetch_row()) {
-                        ?>
-                                <div class='col-md-6'>
-                                    <div class='card'>
-                                        <div class='card-header bg-primary text-white'>Socials</div>
-                                        <div class='card-body'>
-                                            <ul class='list-group'>
-                                                <li class='list-group-item'>
-                                                    <b>Facebook</b>
-                                                    <?php 
-                                                    if ($row[1] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Instagram</b>
-                                                    <?php 
-                                                    if ($row[2] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Twitter</b>
-                                                    <?php 
-                                                    if ($row[3] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Snapchat</b>
-                                                    <?php 
-                                                    if ($row[4] == 'true') {
-                                                        echo "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
-                                                    }
-                                                    else {
-                                                        echo "<span class='badge badge-danger'><i class='fa fa-times'></i></span>";
-                                                    }
-                                                    ?>
-                                                </li>
-                                                <li class='list-group-item'>
-                                                    <b>Others:</b>
-                                                    <?php echo $row[5]; ?>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                        <?php
-                            }
-                        }
                     }
 
                     else {
