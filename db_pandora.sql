@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2019 at 11:44 AM
+-- Generation Time: Jul 12, 2019 at 09:05 AM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.1.29
 
@@ -32,6 +32,18 @@ CREATE TABLE `ads` (
   `id` bigint(20) NOT NULL,
   `category` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ads`
+--
+
+INSERT INTO `ads` (`id`, `category`) VALUES
+(1, 'Newspaper'),
+(2, 'Magazine'),
+(3, 'Social Media'),
+(4, 'Billboard'),
+(5, 'Friend/Family'),
+(6, 'Store Visit');
 
 -- --------------------------------------------------------
 
@@ -76,7 +88,7 @@ CREATE TABLE `company_branches` (
 --
 
 INSERT INTO `company_branches` (`id`, `company_id`, `branch_code`, `branch`, `area`, `imei`, `created_at`, `updated_at`) VALUES
-(1, 1, '00010001', 'WAREHOUSE', 0, NULL, '2017-03-03 10:47:15', '2017-03-03 10:47:15'),
+(1, 1, '00010001', 'WAREHOUSE', 0, '359175060426795', '2017-03-03 10:47:15', '2017-03-03 10:47:15'),
 (2, 1, '00010002', 'SM CLARK', 0, NULL, '2017-03-03 10:47:41', '2017-03-03 10:47:41'),
 (3, 1, '00010003', 'AYALA CEBU', 0, NULL, '2017-03-03 10:48:01', '2017-03-03 10:48:01'),
 (4, 1, '00010004', 'ROBINSONS ERMITA', 0, NULL, '2017-03-03 10:48:25', '2017-03-03 10:48:25'),
@@ -168,7 +180,8 @@ CREATE TABLE `customer_products` (
 CREATE TABLE `customer_social_media` (
   `id` bigint(20) NOT NULL,
   `cust_id` varchar(191) NOT NULL,
-  `social_media_id` varchar(191) NOT NULL
+  `social_media_id` varchar(191) NOT NULL,
+  `others` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -194,6 +207,17 @@ CREATE TABLE `products` (
   `category` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `category`) VALUES
+(1, 'Bracelet'),
+(2, 'Charm'),
+(3, 'Necklace'),
+(4, 'Ring'),
+(5, 'Earrings');
+
 -- --------------------------------------------------------
 
 --
@@ -205,70 +229,15 @@ CREATE TABLE `social_media` (
   `category` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `survey_collections`
+-- Dumping data for table `social_media`
 --
 
-CREATE TABLE `survey_collections` (
-  `cust_id` varchar(191) NOT NULL,
-  `newspaper` varchar(191) NOT NULL,
-  `magazine` varchar(191) NOT NULL,
-  `social_media` varchar(191) NOT NULL,
-  `billboard` varchar(191) NOT NULL,
-  `friend_family` varchar(191) NOT NULL,
-  `store_visit` varchar(191) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `survey_gifts`
---
-
-CREATE TABLE `survey_gifts` (
-  `cust_id` varchar(191) NOT NULL,
-  `gifts` varchar(191) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `survey_products`
---
-
-CREATE TABLE `survey_products` (
-  `cust_id` varchar(191) NOT NULL,
-  `bracelet` varchar(191) NOT NULL,
-  `charm` varchar(191) NOT NULL,
-  `necklace` varchar(191) NOT NULL,
-  `ring` varchar(191) NOT NULL,
-  `earrings` varchar(191) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `survey_socials`
---
-
-CREATE TABLE `survey_socials` (
-  `cust_id` varchar(191) NOT NULL,
-  `facebook` varchar(191) NOT NULL,
-  `instagram` varchar(191) NOT NULL,
-  `twitter` varchar(191) NOT NULL,
-  `snapchat` varchar(191) NOT NULL,
-  `others` varchar(191) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `social_media` (`id`, `category`) VALUES
+(1, 'Facebook'),
+(2, 'Instagram'),
+(3, 'Twitter'),
+(4, 'Snapchat');
 
 --
 -- Indexes for dumped tables
@@ -312,6 +281,12 @@ ALTER TABLE `customer_products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `customer_social_media`
+--
+ALTER TABLE `customer_social_media`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `email`
 --
 ALTER TABLE `email`
@@ -337,7 +312,7 @@ ALTER TABLE `social_media`
 -- AUTO_INCREMENT for table `ads`
 --
 ALTER TABLE `ads`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -370,6 +345,12 @@ ALTER TABLE `customer_products`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `customer_social_media`
+--
+ALTER TABLE `customer_social_media`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `email`
 --
 ALTER TABLE `email`
@@ -379,13 +360,13 @@ ALTER TABLE `email`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `social_media`
 --
 ALTER TABLE `social_media`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
