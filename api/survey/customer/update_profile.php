@@ -10,16 +10,18 @@
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
-    $birthdy = $_POST['birthday'];
+    $mobile = $_POST['mobile'];
+    $birthday = $_POST['birthday'];
 
-    $query = "UPDATE customers SET 'mobile' = $mobile, 'title' = $title, 'firstname' = $firstname, 
-    'lastname' = $lastname, 'email' = $email, 'birthday' = $birthday WHERE id = $id";
+    $query = "UPDATE customers SET title = '$title', firstname = '$firstname', 
+    lastname = '$lastname', email = '$email', mobile = '$mobile', birthday = '$birthday' WHERE id = '$id'";
 
     if ($conn->query($query) === TRUE) {
-        array_push($data, array("message" => "success"));
+        $data = array("message" => "success");
     }
 
     else {
-        array_push($data, array("message" => "error"));
+        $data = array("message" => "error");
     }
-?>n
+    echo json_encode($data, JSON_PRETTY_PRINT)
+?>

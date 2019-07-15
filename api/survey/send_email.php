@@ -1,12 +1,12 @@
 <?php 
 
-include_once '../database/config.php';
+require_once '../database/config.php';
 
 // Load Composer's autoloader
 require '../../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+// use PHPMailer\PHPMailer\Exception;
 
 $id = $_POST['cust_id'];
 
