@@ -1,12 +1,14 @@
 <?php 
 
 require_once '../database/config.php';
-
-// Load Composer's autoloader
 require '../../vendor/autoload.php';
+require "../../vendor1/autoload.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
+
+header("Content-Type: image/png");
+
+use Endroid\QrCode\QrCode;
 
 $id = $_POST['cust_id'];
 
@@ -17,6 +19,10 @@ if($row = $results->fetch_assoc()) {
     $firstname = $row['firstname'];
     $lastname = $row['lastname'];
     $email = $row['email'];
+
+    $fulldetails = "Name: ".$firstname.' '.$lastname."\r\n Email:".$email;
+
+    $qrcode = new QrCode($fulldetails);
 
     $mail = new PHPMailer(true);
 
@@ -35,6 +41,7 @@ if($row = $results->fetch_assoc()) {
     $mail->addAddress($email, $firstname.' '.$lastname);     // Add a recipient
     // $mail->addAddress('ellen@example.com');               // Name is optional
     $mail->addReplyTo('pandorasurvey2019@gmail.com', 'Pandora');
+    $mail->addEmbeddedImage($qrcode->writeString(), 'qr', PHPMailer::ENCODING_BASE64, 'image/png');
     // $mail->addCC('cc@example.com');
     // $mail->addBCC('bcc@example.com');
 
@@ -45,7 +52,13 @@ if($row = $results->fetch_assoc()) {
     // Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = 'Greetings!';
-    $mail->Body    = 'Thank you for your participation! Hope to see you soon!</b>';
+    $mail->Body    = 
+    "
+    <p>Thank you for your participation! Hope to see you soon!</p>
+    <div id ='qrbox' style='text-align: center;'>            
+        <img src='cid:qr'>
+    </div>
+    ";
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     if ($mail->send()) {
