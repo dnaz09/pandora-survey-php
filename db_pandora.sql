@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2019 at 10:27 AM
--- Server version: 10.1.40-MariaDB
--- PHP Version: 7.1.29
+-- Generation Time: Sep 06, 2019 at 07:59 AM
+-- Server version: 10.3.16-MariaDB
+-- PHP Version: 7.1.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -71,7 +71,7 @@ CREATE TABLE `company_branches` (
   `branch_code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `branch` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `area` double NOT NULL,
-  `imei` text COLLATE utf8mb4_unicode_ci,
+  `imei` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -163,18 +163,6 @@ CREATE TABLE `customer_ads` (
   `ads_id` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `customer_ads`
---
-
-INSERT INTO `customer_ads` (`id`, `cust_id`, `ads_id`) VALUES
-(1, '2', '2'),
-(2, '2', ' 6'),
-(3, '2', ' 3'),
-(4, '2', ' 4'),
-(5, '1', '2'),
-(6, '1', ' 6');
-
 -- --------------------------------------------------------
 
 --
@@ -186,17 +174,6 @@ CREATE TABLE `customer_products` (
   `cust_id` varchar(191) NOT NULL,
   `product_id` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `customer_products`
---
-
-INSERT INTO `customer_products` (`id`, `cust_id`, `product_id`) VALUES
-(1, '2', '3'),
-(2, '2', ' 2'),
-(3, '2', ' 4'),
-(4, '1', '1'),
-(5, '1', ' 2');
 
 -- --------------------------------------------------------
 
@@ -210,19 +187,6 @@ CREATE TABLE `customer_social_media` (
   `social_media_id` varchar(191) NOT NULL,
   `others` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `customer_social_media`
---
-
-INSERT INTO `customer_social_media` (`id`, `cust_id`, `social_media_id`, `others`) VALUES
-(1, '2', '2', ''),
-(2, '2', ' 1', ''),
-(3, '2', ' 3', ''),
-(4, '2', ' 4', ''),
-(5, '1', '2', ''),
-(6, '1', ' 4', ''),
-(7, '1', ' 3', '');
 
 -- --------------------------------------------------------
 
@@ -376,19 +340,19 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `customer_ads`
 --
 ALTER TABLE `customer_ads`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customer_products`
 --
 ALTER TABLE `customer_products`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customer_social_media`
 --
 ALTER TABLE `customer_social_media`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `email`

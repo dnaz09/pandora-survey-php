@@ -62,6 +62,6 @@ if($row = $results->fetch_assoc()) {
     else {
         $json['message'] = 'error';
     } 
+    echo json_encode($json);
 }
-echo json_encode($json);
 ?>
